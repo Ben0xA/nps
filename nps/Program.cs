@@ -15,7 +15,7 @@ namespace nps
                 {
                     if(args.Length == 2)
                     {
-                        Byte[] bytes = System.Text.Encoding.UTF8.GetBytes(args[1]);
+                        Byte[] bytes = System.Text.Encoding.Unicode.GetBytes(args[1]);
                         Console.WriteLine(System.Convert.ToBase64String(bytes));
                     }
                     else 
@@ -27,7 +27,7 @@ namespace nps
                 {
                     if (args.Length == 2)
                     {
-                        String cmd = System.Text.Encoding.UTF8.GetString(System.Convert.FromBase64String(args[1]));
+                        String cmd = System.Text.Encoding.Unicode.GetString(System.Convert.FromBase64String(args[1]));
                         Console.WriteLine(cmd);
                     }
                     else
@@ -40,7 +40,7 @@ namespace nps
                     PowerShell ps = PowerShell.Create();
                     if (args[0].ToLower() == "-encodedcommand")
                     {
-                        ps.AddScript(System.Text.Encoding.UTF8.GetString(System.Convert.FromBase64String(args[1])));
+                        ps.AddScript(System.Text.Encoding.Unicode.GetString(System.Convert.FromBase64String(args[1])));
                     }
                     else
                     {
