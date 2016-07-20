@@ -38,16 +38,34 @@ namespace nps
                 else 
                 {
                     PowerShell ps = PowerShell.Create();
-                    if (args[0].ToLower() == "-encodedcommand")
+                    if (args[0].ToLower() == "-encodedcommand" || args[0].ToLower() == "-enc")
                     {
-                        ps.AddScript(System.Text.Encoding.Unicode.GetString(System.Convert.FromBase64String(args[1])));
+                        String script = "";
+                        for (int argidx = 1; argidx < args.Length; argidx++)
+                        {
+                            script += System.Text.Encoding.Unicode.GetString(System.Convert.FromBase64String(args[argidx]));
+                        }
+                        ps.AddScript(script);
                     }
                     else
                     {
-                        ps.AddScript(args[0]);
-                    }                
+                        String script = "";
+                        for (int argidx = 0; argidx < args.Length; argidx++)
+                        {
+                            script += @args[argidx];
+                        }
+                        ps.AddScript(script);
+                    }
 
-                    Collection<PSObject> output = ps.Invoke();
+                    Collection<PSObject> output = null;
+                    try
+                    {
+                        output = ps.Invoke();
+                    }
+                    catch(Exception e)
+                    {
+                        Console.WriteLine("Error while executing the script.\r\n" + e.Message.ToString());
+                    }
                     if (output != null)
                     {
                         foreach (PSObject rtnItem in output)
